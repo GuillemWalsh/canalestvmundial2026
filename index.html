@@ -129,6 +129,42 @@ tr.esp{background:#fff8f8}tr.esp:hover{background:#ffe8e8!important}
 .mob-line2 { display:flex; flex-wrap:wrap; gap:4px; align-items:center; }
 .mob-nochan { font-size:10px; color:#ccc; font-style:italic; }
 
+
+@media(max-width:768px){
+  table{display:none!important;}
+  #ml{display:block!important;}
+  .filters{gap:5px;}
+  .fb{padding:5px 9px;font-size:10px;}
+  .fc{font-size:9px;padding:1px 4px;}
+  .overlay{padding:0;align-items:flex-end;}
+  .modal{border-radius:16px 16px 0 0;max-width:100%;max-height:92vh;overflow-y:auto;}
+  .refresh-bar{font-size:9px;}
+  .sm{grid-template-columns:repeat(4,1fr);gap:5px;margin-top:12px;}
+  .sc{padding:8px 4px;}
+  .sc .n{font-size:18px;}
+  .sc .s{display:none;}
+  h1{font-size:16px;}
+  .sub{font-size:11px;}
+  .inst{font-size:10px;margin-bottom:10px;}
+}
+@media(min-width:769px){#ml{display:none!important;}}
+#ml{display:none;max-width:1050px;margin:0 auto;}
+.mday{background:#dde8f0;padding:5px 10px;border-radius:6px;font-size:10px;font-weight:700;color:#165788;text-transform:uppercase;letter-spacing:.7px;margin:6px 0 3px;}
+.mcard{background:#fff;border-radius:8px;border:1px solid #edf0f4;padding:10px 12px;margin-bottom:5px;cursor:pointer;}
+.mcard:hover{background:#f0f6ff;}
+.mcard.esp{background:#fff8f8;border-color:#f5c6c6;}
+.mcard.esp:hover{background:#ffe8e8;}
+.ml1{display:flex;align-items:center;gap:5px;margin-bottom:6px;flex-wrap:wrap;}
+.mfe{font-size:10.5px;color:#888;}
+.mho{font-size:12px;font-weight:700;color:#165788;}
+.mpa{font-size:13px;font-weight:600;color:#222;}
+.mcard.esp .mpa{color:#c0392b;font-weight:700;}
+.msc{font-size:12px;font-weight:800;color:#333;}
+.msc.live{color:#c0392b;animation:pulse 1.5s infinite;}
+.ml2{display:flex;flex-wrap:wrap;gap:4px;}
+.mnc{font-size:10px;color:#bbb;font-style:italic;}
+.mflag{width:18px;height:12px;border-radius:2px;object-fit:cover;vertical-align:middle;border:1px solid #ddd;}
+
 </style>
 </head>
 <body>
@@ -162,6 +198,7 @@ tr.esp{background:#fff8f8}tr.esp:hover{background:#ffe8e8!important}
 <p class="sub">Fase de Grupos · 11 jun – 28 jun 2026 · Horario peninsular español (CEST)</p>
 <p class="inst">Pulsa en cualquier partido para ver la ficha · Activa o desactiva columnas de canales</p>
 
+<div id="ml"></div>
 <div class="refresh-bar">Marcadores via ESPN · <span id="refresh-time">Cargando...</span></div>
 
 <div class="filters">
@@ -388,50 +425,39 @@ function tc(col,btn){
 
 
 function renderMobile(){
-  var ml=document.getElementById('mobile-list');
+  var ml=document.getElementById('ml');
   if(!ml) return;
   var html='',lastDay='';
   for(var i=0;i<ROWS.length;i++){
     var r=ROWS[i];
     var num=r[0],home=r[1],away=r[2],grupo=r[3],fecha=r[4],hora=r[5],fcls=r[6];
     var vals=r.slice(7,14);
-    var sc=SCORES[num];
-    var phase=sc?sc.phase:'PRE';
-
     if(fecha!==lastDay){
       lastDay=fecha;
-      html+='<div class="mob-day">'+DIAS[fecha]+'</div>';
+      html+='<div class="mday">'+DIAS[fecha]+'</div>';
     }
-
-    var cls='mob-match'+(fcls==='es'?' esp':'');
+    var cls='mcard'+(fcls==='es'?' esp':'');
     html+='<div class="'+cls+'" onclick="openM('+i+')">';
-
-    // Línea 1: fecha + hora + partido + resultado
-    html+='<div class="mob-line1">';
-    html+='<span class="mob-fecha">'+fecha+'</span>';
-    html+='<span class="mob-hora">'+hora+'</span>';
-    html+='<span class="mob-partido">'+flagImg(home)+home+' – '+away+flagImg(away)+'</span>';
-    // Resultado si existe
-    var sc2=SCORES[num];
-    if(sc2&&sc2.phase&&sc2.phase!=='PRE'){
-      var scCls='mob-score'+(isLive(sc2.phase)?' live':'');
-      html+='<span class="'+scCls+'">'+(isLive(sc2.phase)?'<span class="mob-live-dot"></span>':'')+sc2.hs+' – '+sc2.as+'</span>';
+    html+='<div class="ml1">';
+    html+='<span class="mfe">'+fecha+'</span>';
+    html+='<span class="mho">'+hora+'</span>';
+    html+='<span class="mpa">'+flagImg(home)+home+' – '+away+flagImg(away)+'</span>';
+    var sc=ESPN[espnKey(home,away)];
+    if(sc&&sc.state&&sc.state!=='pre'){
+      var scCls='msc'+(sc.state==='in'?' live':'');
+      html+='<span class="'+scCls+'">'+sc.hs+'–'+sc.as+'</span>';
     }
     html+='</div>';
-
-    // Línea 2: solo badges de canales activos
     var activeCh=CN.filter(function(c,j){return vals[j];});
-    html+='<div class="mob-line2">';
+    html+='<div class="ml2">';
     if(activeCh.length){
       activeCh.forEach(function(c){
         html+='<span class="b '+CB[c]+'">'+CL[c]+'</span>';
       });
     } else {
-      html+='<span class="mob-nochan">Sin canal disponible</span>';
+      html+='<span class="mnc">Sin canal disponible</span>';
     }
-    html+='</div>';
-
-    html+='</div>';
+    html+='</div></div>';
   }
   ml.innerHTML=html;
 }
