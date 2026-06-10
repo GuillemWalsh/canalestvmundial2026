@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mundial 2026 — Canales Hotel</title>
+<style>* {box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6f9;color:#222;padding:20px 12px}
+h1{text-align:center;font-size:20px;font-weight:700;color:#165788;margin-bottom:4px}
+.sub{text-align:center;font-size:12px;color:#666;margin-bottom:5px}
+.inst{text-align:center;font-size:11px;color:#888;margin-bottom:14px}
+.filters{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:14px;max-width:1050px;margin-left:auto;margin-right:auto}
+.fb{padding:6px 12px;border-radius:20px;border:2px solid transparent;font-size:11px;font-weight:700;cursor:pointer;transition:all .18s}
+.fb.on{color:#fff}.fb:not(.on){background:#fff}
+.la{--c:#165788}.ar{--c:#003f87}.zd{--c:#c88800}.bb{--c:#990000}.it{--c:#e05500}.m6{--c:#c8950a}.ra{--c:#009246}
+.fb.on{background:var(--c);border-color:var(--c)}.fb:not(.on){border-color:var(--c);color:var(--c)}.fb:hover{opacity:.82}
+.fc{display:inline-block;background:rgba(255,255,255,.28);border-radius:10px;padding:1px 5px;font-size:10px;margin-left:3px}
+.fb:not(.on) .fc{background:rgba(0,0,0,.08)}
+table{width:100%;max-width:1050px;margin:0 auto;border-collapse:collapse;font-size:12px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.09)}
+thead tr{background:#165788;color:#fff}
+thead th{padding:9px 6px;text-align:center;font-weight:600;font-size:10.5px;white-space:nowrap}
+thead th.tp{text-align:left}
+tbody tr{border-bottom:1px solid #edf0f4}
+tr.cl{cursor:pointer}tr.cl:hover{background:#e8f0fc!important}
+tr.gh{background:#e8eef5}
+tr.gh td{font-weight:700;color:#165788;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;padding:5px 8px}
+tr.gh:hover{background:#e8eef5!important;cursor:default}
+td{padding:7px 6px;text-align:center;vertical-align:middle}
+td.f{color:#555;white-space:nowrap;font-size:11px}
+td.h{font-variant-numeric:tabular-nums;color:#555;white-space:nowrap;font-size:11px}
+td.p{text-align:left;font-weight:500;white-space:nowrap}
+tr.esp td.p{color:#c0392b;font-weight:700}
+tr.esp{background:#fff8f8}tr.esp:hover{background:#ffe8e8!important}
+.b{display:inline-block;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+.bla{background:#165788}.bar{background:#003f87}.bzd{background:#c88800}
+.bbc{background:#990000}.bit{background:#e05500}.bm6{background:#c8950a}.bra{background:#009246}
+.no{color:#ccc;font-size:11px}
+.col-hidden{display:none!important}
+.score{font-weight:800;font-size:13px;color:#333;letter-spacing:1px;white-space:nowrap}
+.score.live{color:#c0392b;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.live-dot{display:inline-block;width:6px;height:6px;background:#c0392b;border-radius:50%;margin-right:3px;animation:pulse 1s infinite}
+.ph-live{font-size:9px;font-weight:700;color:#c0392b;margin-left:3px}
+.ph-ht{font-size:9px;font-weight:700;color:#e67e22;margin-left:3px}
+.ph-ft{font-size:9px;font-weight:700;color:#888;margin-left:3px}
+.flag{width:20px;height:14px;border-radius:2px;vertical-align:middle;margin-right:3px;object-fit:cover;border:1px solid #ddd}
+.mflag{width:30px;height:20px;border-radius:3px;object-fit:cover;border:1px solid rgba(255,255,255,.3)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:center;justify-content:center;padding:14px}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:500px;box-shadow:0 8px 40px rgba(0,0,0,.25);overflow:hidden;animation:popIn .18s ease}
+@keyframes popIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.mh{background:linear-gradient(135deg,#165788,#1a7bb5);color:#fff;padding:18px 22px 14px}
+.mh .mg{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.75;margin-bottom:6px}
+.mh .mteams{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.mh .mteam{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.mh .mteam-name{font-size:13px;font-weight:700;text-align:center}
+.mh .mvscore{font-size:30px;font-weight:900;letter-spacing:4px;text-align:center;min-width:80px}
+.mh .mvscore.live{animation:pulse 1.5s infinite}
+.mh .mstatus{text-align:center;font-size:11px;opacity:.85;margin-bottom:4px}
+.mh .mdt{font-size:11px;opacity:.75}
+.mb{padding:18px 22px}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.ic{background:#f4f8ff;border-radius:8px;padding:12px}
+.ic .il{font-size:9px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.ic .iv{font-size:13px;font-weight:700;color:#165788}
+.ic .is{font-size:10px;color:#666;margin-top:2px}
+.mct{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px}
+.mcl{display:flex;flex-wrap:wrap;gap:5px}
+.mcl .b{font-size:11px;padding:3px 10px}
+.mcl .nc{font-size:12px;color:#aaa;font-style:italic}
+.mcb{display:block;width:100%;margin-top:16px;padding:9px;background:#f0f4f8;border:none;border-radius:7px;font-size:12px;font-weight:600;color:#555;cursor:pointer}
+.mcb:hover{background:#e2e8f0}
+.refresh-bar{max-width:1050px;margin:0 auto 10px;text-align:right;font-size:10px;color:#aaa}
+.sm{max-width:1050px;margin:16px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.sc{background:#fff;border-radius:7px;padding:12px 8px;text-align:center;box-shadow:0 1px 5px rgba(0,0,0,.07);border-top:3px solid #ccc}
+.sc .n{font-size:24px;font-weight:800;line-height:1;margin-bottom:2px}
+.sc .l{font-size:11px;font-weight:700;color:#444}
+.sc .s{font-size:9.5px;color:#888;margin-top:1px}
+.sla{border-color:#165788}.sla .n{color:#165788}
+.sar{border-color:#003f87}.sar .n{color:#003f87}
+.szd{border-color:#c88800}.szd .n{color:#c88800}
+.sbb{border-color:#990000}.sbb .n{color:#990000}
+.sit{border-color:#e05500}.sit .n{color:#e05500}
+.sm6{border-color:#c8950a}.sm6 .n{color:#c8950a}
+.sra{border-color:#009246}.sra .n{color:#009246}
+.note{max-width:1050px;margin:10px auto 0;font-size:10px;color:#888;text-align:center}
+@media print{body{background:#fff;padding:8px}.filters,.sm,.overlay,.refresh-bar{display:none!important}table{box-shadow:none}}</style>
+</head>
+<body>
+
+<div class="overlay" id="ov">
+  <div class="modal">
+    <div class="mh">
+      <div class="mg" id="mg"></div>
+      <div class="mteams" id="mteams"></div>
+      <div class="mstatus" id="mstatus"></div>
+      <div class="mdt" id="md"></div>
+    </div>
+    <div class="mb">
+      <div class="ig">
+        <div class="ic"><div class="il">Estadio</div><div class="iv" id="me"></div></div>
+        <div class="ic"><div class="il">Ciudad</div><div class="iv" id="mc"></div></div>
+        <div class="ic" style="grid-column:1/-1">
+          <div class="il">Hora local</div>
+          <div class="iv" id="mhl"></div>
+          <div class="is">Árbitro: pendiente de designación oficial FIFA</div>
+        </div>
+      </div>
+      <div class="mct">Disponible en el hotel</div>
+      <div class="mcl" id="mch"></div>
+      <button class="mcb" onclick="closeM()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<h1>Mundial 2026 — Partidos por canal disponible en el hotel</h1>
+<p class="sub">Fase de Grupos · 11 jun – 28 jun 2026 · Horario peninsular español (CEST)</p>
+<p class="inst">Pulsa en cualquier partido para ver la ficha · Activa o desactiva columnas de canales</p>
+
+<div class="refresh-bar">Marcadores via ESPN · <span id="refresh-time">Cargando...</span></div>
+
+<div class="filters">
+  <button class="fb la on" onclick="tc('la1',this)">La 1/TDP <span class="fc">17</span></button>
+  <button class="fb ar on" onclick="tc('ard',this)">ARD <span class="fc">3</span></button>
+  <button class="fb zd on" onclick="tc('zdf',this)">ZDF <span class="fc">20</span></button>
+  <button class="fb bb on" onclick="tc('bbc',this)">BBC One <span class="fc">29</span></button>
+  <button class="fb it on" onclick="tc('itv',this)">ITV 1 <span class="fc">32</span></button>
+  <button class="fb m6 on" onclick="tc('m6',this)">M6 <span class="fc">10</span></button>
+  <button class="fb ra on" onclick="tc('rai',this)">Rai 1 <span class="fc">17</span></button>
+</div>
+
+<table>
+<thead><tr>
+  <th>Fecha</th><th>Hora</th><th>Gr.</th><th class="tp">Partido</th><th>Result.</th>
+  <th class="c-la1" style="background:#1a6499">La 1</th>
+  <th class="c-ard" style="background:#003f87">ARD</th>
+  <th class="c-zdf" style="background:#c88800">ZDF</th>
+  <th class="c-bbc" style="background:#990000">BBC</th>
+  <th class="c-itv" style="background:#e05500">ITV</th>
+  <th class="c-m6"  style="background:#c8950a">M6</th>
+  <th class="c-rai" style="background:#007a38">Rai 1</th>
+</tr></thead>
+<tbody id="tb"></tbody>
+</table>
+
+<div class="sm">
+  <div class="sc sla"><div class="n">17</div><div class="l">La 1/TDP</div><div class="s">RTVE España</div></div>
+  <div class="sc sar"><div class="n">3</div><div class="l">Das Erste</div><div class="s">ARD Alemania</div></div>
+  <div class="sc szd"><div class="n">20</div><div class="l">ZDF</div><div class="s">Alemania</div></div>
+  <div class="sc sbb"><div class="n">29</div><div class="l">BBC One</div><div class="s">Reino Unido</div></div>
+  <div class="sc sit"><div class="n">32</div><div class="l">ITV 1</div><div class="s">Reino Unido</div></div>
+  <div class="sc sm6"><div class="n">10</div><div class="l">M6</div><div class="s">Francia</div></div>
+  <div class="sc sra"><div class="n">17</div><div class="l">Rai 1</div><div class="s">Italia</div></div>
+</div>
+
+<p class="note">
+  Partidos de España en rojo · Banderas y resultados via ESPN (sin registro, actualización cada 60s)<br>
+  Fuentes TV: RTVE.es · ZDF.de · ESPN UK · Puremédias · openfootball/worldcup.json
+</p>
+
+<script>
+var ROWS=[[1,"México","Sudáfrica","A","Jue 11 jun","21:00","",1,1,1,1,1,1,1,"Estadio Azteca","Ciudad de México","13:00","UTC-6"],[2,"Corea del Sur","Rep. Checa","A","Vie 12 jun","04:00","",0,0,0,0,1,0,0,"Estadio Akron","Guadalajara","20:00","UTC-6"],[3,"Canadá","Bosnia","B","Vie 12 jun","21:00","",1,0,0,1,0,0,1,"BMO Field","Toronto","15:00","UTC-4"],[4,"EEUU","Paraguay","D","Sáb 13 jun","03:00","",0,0,0,1,0,0,0,"SoFi Stadium","Los Ángeles","18:00","UTC-7"],[5,"Catar","Suiza","B","Sáb 13 jun","21:00","",0,0,1,0,1,1,0,"Levi's Stadium","San Francisco","12:00","UTC-7"],[6,"Brasil","Marruecos","C","Dom 14 jun","00:00","",1,0,1,1,0,1,1,"MetLife Stadium","Nueva York/NJ","18:00","UTC-4"],[7,"Haití","Escocia","C","Dom 14 jun","03:00","",0,0,0,1,0,0,0,"Gillette Stadium","Boston","21:00","UTC-4"],[8,"Australia","Turquía","D","Dom 14 jun","06:00","",0,0,0,0,1,0,0,"BC Place","Vancouver","21:00","UTC-7"],[9,"Alemania","Curazao","E","Dom 14 jun","19:00","de",1,1,0,0,1,1,0,"NRG Stadium","Houston","12:00","UTC-5"],[10,"Países Bajos","Japón","F","Dom 14 jun","22:00","",0,0,0,0,1,0,1,"AT&T Stadium","Dallas","15:00","UTC-5"],[11,"Costa de Marfil","Ecuador","E","Lun 15 jun","01:00","",0,0,0,1,0,0,0,"Lincoln Financial Field","Filadelfia","19:00","UTC-4"],[12,"Suecia","Túnez","F","Lun 15 jun","04:00","",0,0,0,0,1,0,0,"Estadio BBVA","Monterrey","20:00","UTC-6"],[13,"España","Cabo Verde","H","Lun 15 jun","18:00","es",1,0,0,0,1,0,0,"Mercedes-Benz Stadium","Atlanta","12:00","UTC-4"],[14,"Bélgica","Egipto","G","Lun 15 jun","21:00","",0,0,0,1,0,0,1,"Lumen Field","Seattle","12:00","UTC-7"],[15,"Arabia Saudí","Uruguay","H","Mar 16 jun","00:00","",0,0,1,0,1,0,0,"Hard Rock Stadium","Miami","18:00","UTC-4"],[16,"Irán","Nueva Zelanda","G","Mar 16 jun","03:00","",0,0,1,1,0,0,0,"SoFi Stadium","Los Ángeles","18:00","UTC-7"],[17,"Francia","Senegal","I","Mar 16 jun","21:00","",1,0,0,1,0,0,1,"MetLife Stadium","Nueva York/NJ","15:00","UTC-4"],[18,"Irak","Noruega","I","Mié 17 jun","00:00","",0,0,0,1,0,0,0,"Gillette Stadium","Boston","18:00","UTC-4"],[19,"Argentina","Argelia","J","Mié 17 jun","03:00","",0,0,0,0,1,0,0,"Arrowhead Stadium","Kansas City","20:00","UTC-5"],[20,"Austria","Jordania","J","Mié 17 jun","06:00","",0,0,1,1,0,0,0,"Levi's Stadium","San Francisco","21:00","UTC-7"],[21,"Portugal","RD Congo","K","Mié 17 jun","19:00","",0,0,1,1,0,0,0,"NRG Stadium","Houston","12:00","UTC-5"],[22,"Inglaterra","Croacia","L","Mié 17 jun","22:00","",1,0,1,0,1,0,1,"AT&T Stadium","Dallas","15:00","UTC-5"],[23,"Ghana","Panamá","L","Jue 18 jun","01:00","",0,0,0,0,1,0,0,"BMO Field","Toronto","19:00","UTC-4"],[24,"Uzbekistán","Colombia","K","Jue 18 jun","04:00","",0,0,0,1,0,0,0,"Estadio Azteca","Ciudad de México","20:00","UTC-6"],[25,"Rep. Checa","Sudáfrica","A","Jue 18 jun","18:00","",0,0,1,1,0,0,0,"Mercedes-Benz Stadium","Atlanta","12:00","UTC-4"],[26,"Bosnia","Suiza","B","Jue 18 jun","21:00","",1,0,0,0,1,0,1,"SoFi Stadium","Los Ángeles","19:00","UTC-7"],[27,"Canadá","Catar","B","Vie 19 jun","00:00","",0,0,1,0,1,0,0,"BC Place","Vancouver","15:00","UTC-7"],[28,"México","Corea del Sur","A","Vie 19 jun","03:00","",0,0,0,1,0,0,0,"Estadio Akron","Guadalajara","19:00","UTC-6"],[29,"Turquía","Paraguay","D","Vie 19 jun","06:00","",0,0,0,0,0,0,0,"Levi's Stadium","San Francisco","21:00","UTC-7"],[30,"EEUU","Australia","D","Vie 19 jun","21:00","",1,0,0,0,0,1,1,"Lumen Field","Seattle","12:00","UTC-7"],[31,"Escocia","Marruecos","C","Sáb 20 jun","00:00","",0,0,0,0,1,1,0,"Gillette Stadium","Boston","18:00","UTC-4"],[32,"Brasil","Haití","C","Sáb 20 jun","02:30","",0,0,0,0,1,0,0,"Lincoln Financial Field","Filadelfia","21:00","UTC-4"],[33,"Turquía","Paraguay","D","Sáb 20 jun","05:00","",0,0,0,0,0,0,0,"Levi's Stadium","San Francisco","21:00","UTC-7"],[34,"Países Bajos","Suecia","F","Sáb 20 jun","19:00","",1,0,1,1,0,0,0,"NRG Stadium","Houston","12:00","UTC-5"],[35,"Alemania","Costa de Marfil","E","Sáb 20 jun","22:00","de",0,0,1,0,0,0,1,"BMO Field","Toronto","16:00","UTC-4"],[36,"Ecuador","Curazao","E","Dom 21 jun","02:00","",0,0,1,1,0,0,0,"Arrowhead Stadium","Kansas City","19:00","UTC-5"],[37,"Túnez","Japón","F","Dom 21 jun","06:00","",0,0,0,1,0,0,0,"Estadio BBVA","Monterrey","22:00","UTC-6"],[38,"España","Arabia Saudí","H","Dom 21 jun","18:00","es",1,0,0,1,0,0,1,"Mercedes-Benz Stadium","Atlanta","12:00","UTC-4"],[39,"Bélgica","Irán","G","Dom 21 jun","21:00","",0,0,1,0,1,0,0,"SoFi Stadium","Los Ángeles","12:00","UTC-7"],[40,"Uruguay","Cabo Verde","H","Lun 22 jun","00:00","",0,0,0,1,0,0,0,"Hard Rock Stadium","Miami","18:00","UTC-4"],[41,"Nueva Zelanda","Egipto","G","Lun 22 jun","03:00","",0,0,0,0,0,0,0,"BC Place","Vancouver","21:00","UTC-7"],[42,"Argentina","Austria","J","Lun 22 jun","19:00","",1,0,0,1,0,0,1,"AT&T Stadium","Dallas","12:00","UTC-5"],[43,"Francia","Irak","I","Lun 22 jun","23:00","",0,0,0,1,0,0,0,"Lincoln Financial Field","Filadelfia","17:00","UTC-4"],[44,"Noruega","Senegal","I","Mar 23 jun","02:00","",0,0,0,0,1,0,0,"MetLife Stadium","Nueva York/NJ","20:00","UTC-4"],[45,"Jordania","Argelia","J","Mar 23 jun","05:00","",0,0,1,0,1,0,0,"Levi's Stadium","San Francisco","20:00","UTC-7"],[46,"Portugal","Uzbekistán","K","Mar 23 jun","19:00","",0,0,0,0,1,0,0,"NRG Stadium","Houston","12:00","UTC-5"],[47,"Inglaterra","Ghana","L","Mar 23 jun","22:00","",1,0,0,1,0,0,1,"Gillette Stadium","Boston","16:00","UTC-4"],[48,"Panamá","Croacia","L","Mié 24 jun","01:00","",0,0,0,0,0,0,0,"BMO Field","Toronto","19:00","UTC-4"],[49,"Colombia","RD Congo","K","Mié 24 jun","04:00","",0,0,0,0,1,0,0,"Estadio Akron","Guadalajara","21:00","UTC-6"],[50,"Suiza","Canadá","B","Mié 24 jun","21:00","",0,0,0,0,1,1,1,"BC Place","Vancouver","12:00","UTC-7"],[51,"Bosnia","Catar","B","Mié 24 jun","21:00","",0,0,0,0,1,0,0,"Lumen Field","Seattle","12:00","UTC-7"],[52,"Escocia","Brasil","C","Jue 25 jun","00:00","",1,0,0,1,0,1,0,"Hard Rock Stadium","Miami","18:00","UTC-4"],[53,"Marruecos","Haití","C","Jue 25 jun","00:00","",0,0,1,0,0,0,0,"Mercedes-Benz Stadium","Atlanta","18:00","UTC-4"],[54,"Túnez","Países Bajos","F","Jue 25 jun","01:00","",0,0,0,1,0,1,0,"Arrowhead Stadium","Kansas City","18:00","UTC-5"],[55,"Japón","Suecia","F","Jue 25 jun","01:00","",0,0,0,0,0,0,0,"AT&T Stadium","Dallas","18:00","UTC-5"],[56,"Rep. Checa","México","A","Jue 25 jun","03:00","",0,0,0,1,0,0,0,"Estadio Azteca","Ciudad de México","19:00","UTC-6"],[57,"Sudáfrica","Corea del Sur","A","Jue 25 jun","03:00","",0,0,0,0,0,0,0,"Estadio BBVA","Monterrey","19:00","UTC-6"],[58,"Ecuador","Alemania","E","Jue 25 jun","22:00","de",1,1,0,1,0,1,1,"MetLife Stadium","Nueva York/NJ","16:00","UTC-4"],[59,"Curazao","Costa de Marfil","E","Jue 25 jun","22:00","",0,0,0,0,0,0,0,"Lincoln Financial Field","Filadelfia","16:00","UTC-4"],[60,"Túnez","Países Bajos","F","Vie 26 jun","01:00","",0,0,0,1,0,1,0,"Arrowhead Stadium","Kansas City","18:00","UTC-5"],[61,"Japón","Suecia","F","Vie 26 jun","01:00","",0,0,0,0,0,0,0,"AT&T Stadium","Dallas","18:00","UTC-5"],[62,"Turquía","EEUU","D","Vie 26 jun","04:00","",0,0,0,0,1,0,0,"Lumen Field","Seattle","20:00","UTC-7"],[63,"Paraguay","Australia","D","Vie 26 jun","04:00","",0,0,0,0,1,0,0,"SoFi Stadium","Los Ángeles","19:00","UTC-7"],[64,"Noruega","Francia","I","Vie 26 jun","21:00","",0,0,1,0,1,0,1,"Gillette Stadium","Boston","15:00","UTC-4"],[65,"Senegal","Irak","I","Vie 26 jun","21:00","",0,0,0,0,1,0,0,"BMO Field","Toronto","15:00","UTC-4"],[66,"Uruguay","España","H","Sáb 27 jun","02:00","es",1,0,0,0,1,0,0,"Estadio Akron","Guadalajara","18:00","UTC-6"],[67,"Cabo Verde","Arabia Saudí","H","Sáb 27 jun","02:00","",0,0,0,0,1,0,0,"NRG Stadium","Houston","19:00","UTC-5"],[68,"Nueva Zelanda","Bélgica","G","Sáb 27 jun","05:00","",0,0,0,1,0,0,0,"BC Place","Vancouver","20:00","UTC-7"],[69,"Egipto","Irán","G","Sáb 27 jun","05:00","",0,0,0,0,1,0,0,"Lumen Field","Seattle","20:00","UTC-7"],[70,"Panamá","Inglaterra","L","Sáb 27 jun","23:00","",0,0,0,0,1,0,1,"MetLife Stadium","Nueva York/NJ","17:00","UTC-4"],[71,"Croacia","Ghana","L","Sáb 27 jun","23:00","",0,0,1,0,1,0,0,"Lincoln Financial Field","Filadelfia","17:00","UTC-4"],[72,"Colombia","Portugal","K","Dom 28 jun","01:30","",1,0,1,0,0,0,0,"Hard Rock Stadium","Miami","19:30","UTC-4"],[73,"RD Congo","Uzbekistán","K","Dom 28 jun","01:30","",0,0,0,0,0,0,0,"Mercedes-Benz Stadium","Atlanta","19:30","UTC-4"],[74,"Jordania","Argentina","J","Dom 28 jun","04:00","",0,0,0,1,0,0,0,"AT&T Stadium","Dallas","21:00","UTC-5"],[75,"Argelia","Austria","J","Dom 28 jun","04:00","",0,0,1,0,0,0,0,"Arrowhead Stadium","Kansas City","21:00","UTC-5"]];
+var DIAS={"Jue 11 jun":"Jueves, 11 de junio","Vie 12 jun":"Viernes, 12 de junio","Sáb 13 jun":"Sábado, 13 de junio","Dom 14 jun":"Domingo, 14 de junio","Lun 15 jun":"Lunes, 15 de junio","Mar 16 jun":"Martes, 16 de junio","Mié 17 jun":"Miércoles, 17 de junio","Jue 18 jun":"Jueves, 18 de junio","Vie 19 jun":"Viernes, 19 de junio","Sáb 20 jun":"Sábado, 20 de junio","Dom 21 jun":"Domingo, 21 de junio","Lun 22 jun":"Lunes, 22 de junio","Mar 23 jun":"Martes, 23 de junio","Mié 24 jun":"Miércoles, 24 de junio","Jue 25 jun":"Jueves, 25 de junio","Vie 26 jun":"Viernes, 26 de junio","Sáb 27 jun":"Sábado, 27 de junio","Dom 28 jun":"Domingo, 28 de junio"};
+var ABBR={"México":"MEX","Sudáfrica":"RSA","Corea del Sur":"SKO","Rep. Checa":"CZE","Canadá":"CAN","Bosnia":"BIH","EEUU":"USA","Paraguay":"PAR","Catar":"QAT","Suiza":"SUI","Brasil":"BRA","Marruecos":"MAR","Haití":"HAI","Escocia":"SCO","Australia":"AUS","Turquía":"TUR","Alemania":"GER","Curazao":"CUW","Países Bajos":"NED","Japón":"JPN","Costa de Marfil":"CIV","Ecuador":"ECU","Suecia":"SWE","Túnez":"TUN","España":"ESP","Cabo Verde":"CPV","Bélgica":"BEL","Egipto":"EGY","Arabia Saudí":"KSA","Uruguay":"URU","Irán":"IRN","Nueva Zelanda":"NZL","Francia":"FRA","Senegal":"SEN","Irak":"IRQ","Noruega":"NOR","Argentina":"ARG","Argelia":"ALG","Austria":"AUT","Jordania":"JOR","Portugal":"POR","RD Congo":"COD","Uzbekistán":"UZB","Colombia":"COL","Inglaterra":"ENG","Croacia":"CRO","Ghana":"GHA","Panamá":"PAN"};
+var CN=['la1','ard','zdf','bbc','itv','m6','rai'];
+var CL={la1:'La 1',ard:'ARD',zdf:'ZDF',bbc:'BBC',itv:'ITV',m6:'M6',rai:'Rai 1'};
+var CB={la1:'bla',ard:'bar',zdf:'bzd',bbc:'bbc',itv:'bit',m6:'bm6',rai:'bra'};
+
+// Almacén de datos ESPN: clave = abreviatura home+'-'+away, valor = {hs, as, state, clock, logo1, logo2}
+var ESPN={};
+var refreshTimer=null;
+
+function logoUrl(abbr){
+  // ESPN logos por abreviatura de país
+  var map={
+    MEX:'mex',RSA:'rsa',SKO:'sko',CZE:'cze',CAN:'can',BIH:'bih',USA:'usa',PAR:'par',
+    QAT:'qat',SUI:'sui',BRA:'bra',MAR:'mar',HAI:'hai',SCO:'sco',AUS:'aus',TUR:'tur',
+    GER:'ger',CUW:'cuw',NED:'ned',JPN:'jpn',CIV:'civ',ECU:'ecu',SWE:'swe',TUN:'tun',
+    ESP:'esp',CPV:'cpv',BEL:'bel',EGY:'egy',KSA:'ksa',URU:'uru',IRN:'irn',NZL:'nzl',
+    FRA:'fra',SEN:'sen',IRQ:'irq',NOR:'nor',ARG:'arg',ALG:'alg',AUT:'aut',JOR:'jor',
+    POR:'por',COD:'cod',UZB:'uzb',COL:'col',ENG:'eng',CRO:'cro',GHA:'gha',PAN:'pan'
+  };
+  var c=map[abbr];
+  if(!c) return '';
+  return 'https://a.espncdn.com/i/teamlogos/countries/500/'+c+'.png';
+}
+
+function flagImg(teamES, size){
+  var abbr=ABBR[teamES];
+  if(!abbr) return '';
+  var url=logoUrl(abbr);
+  if(!url) return '';
+  var h=size||14, w=Math.round(h*1.43);
+  return '<img src="'+url+'" width="'+w+'" height="'+h+'" style="border-radius:2px;vertical-align:middle;margin-right:3px;object-fit:cover;border:1px solid #ddd" onerror="this.style.display=\'none\'" alt="">';
+}
+
+function flagImgModal(teamES){
+  var abbr=ABBR[teamES];
+  if(!abbr) return '';
+  var url=logoUrl(abbr);
+  if(!url) return '';
+  return '<img src="'+url+'" width="40" height="28" style="border-radius:3px;object-fit:cover;border:1px solid rgba(255,255,255,.3)" onerror="this.style.display=\'none\'" alt="">';
+}
+
+function espnKey(home,away){
+  var h=ABBR[home]||'',a=ABBR[away]||'';
+  return h+'-'+a;
+}
+
+function scoreCell(home,away){
+  var k=espnKey(home,away);
+  var d=ESPN[k];
+  if(!d) return '';
+  var state=d.state;
+  if(state==='pre') return '';
+  var sc='<span class="score'+(state==='in'?' live':'')+'">'+d.hs+' – '+d.as+'</span>';
+  if(state==='in'){
+    sc+=' <span class="ph-live"><span class="live-dot"></span>'+d.clock+'</span>';
+  } else if(state==='post'){
+    sc+=' <span class="ph-ft">FIN</span>';
+  }
+  return sc;
+}
+
+async function fetchESPN(){
+  try{
+    // Obtener todos los partidos del Mundial por fecha (los primeros 50)
+    var urls=[
+      'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?limit=50&dates=20260611-20260628'
+    ];
+    for(var i=0;i<urls.length;i++){
+      var r=await fetch(urls[i]);
+      if(!r.ok) continue;
+      var data=await r.json();
+      var events=data.events||[];
+      events.forEach(function(ev){
+        var comps=ev.competitions&&ev.competitions[0];
+        if(!comps) return;
+        var status=comps.status||{};
+        var state=status.type&&status.type.state||'pre';
+        var clock=status.displayClock||'';
+        var desc=status.type&&status.type.description||'';
+        var teams=comps.competitors||[];
+        var home=teams.find(function(t){return t.homeAway==='home';})||{};
+        var away=teams.find(function(t){return t.homeAway==='away';})||{};
+        var hAbbr=(home.team&&home.team.abbreviation)||'';
+        var aAbbr=(away.team&&away.team.abbreviation)||'';
+        var key=hAbbr+'-'+aAbbr;
+        ESPN[key]={
+          hs:home.score||'0',
+          as:away.score||'0',
+          state:state,
+          clock:clock,
+          desc:desc,
+          hLogo:(home.team&&home.team.logo)||'',
+          aLogo:(away.team&&away.team.logo)||''
+        };
+      });
+    }
+    document.getElementById('refresh-time').textContent=
+      'Actualizado '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+    renderTable();
+  }catch(e){
+    document.getElementById('refresh-time').textContent='Error al conectar con ESPN';
+  }
+}
+
+function renderTable(){
+  var tb=document.getElementById('tb');
+  var html='',lastDay='';
+  for(var i=0;i<ROWS.length;i++){
+    var r=ROWS[i];
+    var num=r[0],home=r[1],away=r[2],grupo=r[3],fecha=r[4],hora=r[5],fcls=r[6];
+    var vals=r.slice(7,14);
+    if(fecha!==lastDay){
+      lastDay=fecha;
+      html+='<tr class="gh"><td colspan="12">'+DIAS[fecha]+'</td></tr>';
+    }
+    var trCls='cl'+(fcls==='es'?' esp':'');
+    html+='<tr class="'+trCls+'" onclick="openM('+i+')">';
+    html+='<td class="f">'+fecha+'</td><td class="h">'+hora+'</td>';
+    html+='<td>'+grupo+'</td>';
+    html+='<td class="p">'+flagImg(home)+home+' – '+away+flagImg(away)+'</td>';
+    html+='<td style="min-width:80px">'+scoreCell(home,away)+'</td>';
+    for(var j=0;j<CN.length;j++){
+      var c=CN[j];
+      html+='<td class="c-'+c+'">'+(vals[j]?'<span class="b '+CB[c]+'">'+CL[c]+'</span>':'<span class="no">–</span>')+'</td>';
+    }
+    html+='</tr>';
+  }
+  tb.innerHTML=html;
+}
+
+function openM(i){
+  var r=ROWS[i];
+  var num=r[0],home=r[1],away=r[2],grupo=r[3],fecha=r[4],hora=r[5];
+  var vals=r.slice(7,14);
+  var estadio=r[14],ciudad=r[15],hl=r[16],tz=r[17];
+  var k=espnKey(home,away);
+  var d=ESPN[k];
+  var ch=CN.filter(function(c,j){return vals[j];}).map(function(c){
+    return '<span class="b '+CB[c]+'">'+CL[c]+'</span>';
+  });
+
+  document.getElementById('mg').textContent='Grupo '+grupo;
+
+  // Equipos con logos
+  var hLogo=d&&d.hLogo?d.hLogo:logoUrl(ABBR[home]||'');
+  var aLogo=d&&d.aLogo?d.aLogo:logoUrl(ABBR[away]||'');
+  var imgH=hLogo?'<img src="'+hLogo+'" style="width:48px;height:32px;object-fit:contain;border-radius:4px" onerror="this.style.display=\'none\'">':'';
+  var imgA=aLogo?'<img src="'+aLogo+'" style="width:48px;height:32px;object-fit:contain;border-radius:4px" onerror="this.style.display=\'none\'">':'';
+
+  document.getElementById('mteams').innerHTML=
+    '<div class="mteam">'+imgH+'<div class="mteam-name">'+home+'</div></div>'+
+    '<div id="mvscore" class="mvscore'+(d&&d.state==='in'?' live':'')+'">'+(d&&d.state!=='pre'?d.hs+' – '+d.as:'vs')+'</div>'+
+    '<div class="mteam">'+imgA+'<div class="mteam-name">'+away+'</div></div>';
+
+  var statusTxt='';
+  if(d){
+    if(d.state==='in') statusTxt='<span class="live-dot"></span> En juego · '+d.clock;
+    else if(d.state==='post') statusTxt='Partido finalizado';
+  }
+  document.getElementById('mstatus').innerHTML=statusTxt;
+  document.getElementById('md').textContent=fecha+' · '+hora+' (hora España)';
+  document.getElementById('me').textContent=estadio;
+  document.getElementById('mc').textContent=ciudad;
+  document.getElementById('mhl').textContent=hl+' ('+tz+')';
+  document.getElementById('mch').innerHTML=ch.length?ch.join(' '):'<span class="nc">Sin canal disponible</span>';
+  document.getElementById('ov').classList.add('open');
+}
+
+function closeM(){document.getElementById('ov').classList.remove('open');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM();});
+document.getElementById('ov').addEventListener('click',function(e){if(e.target===e.currentTarget)closeM();});
+
+function tc(col,btn){
+  btn.classList.toggle('on');
+  var show=btn.classList.contains('on');
+  document.querySelectorAll('.c-'+col).forEach(function(el){el.classList.toggle('col-hidden',!show);});
+}
+
+renderTable();
+fetchESPN();
+refreshTimer=setInterval(fetchESPN,60000);
+</script>
+</body>
+</html>
