@@ -85,69 +85,115 @@ tr.esp{background:#fff8f8}tr.esp:hover{background:#ffe8e8!important}
 .sra{border-color:#009246}.sra .n{color:#009246}
 .note{max-width:1050px;margin:10px auto 0;font-size:10px;color:#888;text-align:center}
 @media print{body{background:#fff;padding:8px}.filters,.sm,.overlay,.refresh-bar{display:none!important}table{box-shadow:none}}
-@media(max-width:700px){
-  /* Ocultar columna grupo y cabeceras de canal */
-  thead th:nth-child(3),
-  tbody td:nth-child(3){ display:none }
+}
 
-  /* Cada fila de partido se convierte en bloque de 2 líneas */
-  table{ font-size:11px; }
-  thead tr{ display:none }
-  tbody tr.gh{ display:block; }
-  tbody tr.gh td{ display:block; padding:5px 10px; }
-  
-  tbody tr.cl{ display:grid; grid-template-columns:1fr; border-bottom:2px solid #c8d8e8; padding:8px 10px; gap:3px; background:#fff; }
-  tbody tr.cl:hover{ background:#e8f0fc!important; }
-  tbody tr.esp{ background:#fff8f8!important; }
-  tbody tr.esp:hover{ background:#ffe8e8!important; }
-  
-  /* Línea 1: fecha + hora + partido */
-  tbody tr.cl td.f{ display:inline; font-weight:600; color:#165788; font-size:11px; }
-  tbody tr.cl td.h{ display:inline; font-weight:700; color:#222; font-size:12px; margin-left:6px; }
-  tbody tr.cl td.p{ display:block; font-size:13px; font-weight:600; padding:2px 0; }
-  
-  /* Línea 2: canales en fila */
-  tbody tr.cl td[class^="c-"],
-  tbody tr.cl td[class*=" c-"]{ 
-    display:inline-block!important; 
-    padding:1px 2px;
-    border:none;
+@media(max-width:768px){
+  /* Ocultar tabla de escritorio completa */
+  table, thead, tbody, tr, th, td { display:block; }
+
+  thead { display:none; }
+
+  /* Cabeceras de día */
+  tr.gh { background:#e8eef5; padding:5px 12px; border-bottom:none; }
+  tr.gh td { font-weight:700; color:#165788; font-size:10.5px; text-transform:uppercase; letter-spacing:.7px; padding:0; }
+
+  /* Cada partido: card */
+  tr.cl {
+    background:#fff;
+    border-bottom:2px solid #e8eef5;
+    padding:10px 12px 8px;
+    cursor:pointer;
+    position:relative;
   }
-  
-  /* Resultado */
-  tbody tr.cl td:nth-child(5){ display:block; font-size:12px; padding:2px 0; }
-  
-  /* Ocultar guiones de canales vacíos en móvil */
-  tbody tr.cl td .no{ display:none; }
-  
-  /* Badges más compactos */
-  .b{ font-size:9.5px; padding:2px 5px; }
-  
-  /* Filtros en 2 filas */
-  .filters{ gap:5px; }
-  .fb{ padding:5px 9px; font-size:10px; }
-  .fc{ font-size:9px; }
-  
-  /* Modal a pantalla completa */
-  .overlay{ padding:0; align-items:flex-end; }
-  .modal{ border-radius:16px 16px 0 0; max-width:100%; max-height:90vh; overflow-y:auto; }
-  
-  /* Barra de actualización */
-  .refresh-bar{ font-size:9px; margin-bottom:6px; }
-  
-  /* Cards resumen en 4 columnas */
-  .sm{ grid-template-columns:repeat(4,1fr); gap:5px; }
-  .sc .n{ font-size:18px; }
-  .sc .l{ font-size:9px; }
-  .sc .s{ display:none; }
-  
-  h1{ font-size:16px; }
-  .sub{ font-size:11px; }
-  .inst{ font-size:10px; }
+  tr.cl:hover { background:#f0f6ff; }
+  tr.esp { background:#fff8f8!important; }
+  tr.esp:hover { background:#ffe8e8!important; }
+
+  /* Ocultar todas las celdas por defecto */
+  tr.cl td { display:none; padding:0; border:none; }
+
+  /* Línea 1: fecha + hora + partido */
+  tr.cl td.f, tr.cl td.h, tr.cl td.p {
+    display:inline;
+    vertical-align:middle;
+  }
+  tr.cl td.f {
+    font-size:11px;
+    color:#888;
+    margin-right:4px;
+  }
+  tr.cl td.h {
+    font-size:12px;
+    font-weight:700;
+    color:#165788;
+    margin-right:8px;
+  }
+  tr.cl td.p {
+    font-size:13px;
+    font-weight:600;
+    color:#222;
+  }
+  tr.esp td.p { color:#c0392b; font-weight:700; }
+
+  /* Resultado inline junto al partido */
+  tr.cl td:nth-child(5) {
+    display:inline;
+    font-size:12px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+
+  /* Contenedor de la línea 1 */
+  tr.cl td.f::before { content:''; display:block; margin-bottom:2px; }
+
+  /* Línea 2: canales — mostrar solo los que tienen badge, en fila */
+  tr.cl td[class^="c-"],
+  tr.cl td[class*=" c-"] {
+    display:inline-block!important;
+    padding:0 2px 0 0;
+    border:none;
+    vertical-align:middle;
+  }
+  /* Mostrar la línea de canales debajo */
+  tr.cl td.c-la1 { margin-top:6px; display:block!important; }
+  tr.cl td.c-la1 ~ td[class^="c-"],
+  tr.cl td.c-la1 ~ td[class*=" c-"] { display:inline-block!important; margin-top:6px; }
+
+  /* Ocultar los guiones */
+  tr.cl .no { display:none; }
+
+  /* Badges compactos */
+  .b { font-size:10px; padding:3px 8px; }
+
+  /* Ocultar columna grupo */
+  tr.cl td:nth-child(3) { display:none!important; }
+
+  /* Filtros */
+  .filters { gap:5px; }
+  .fb { padding:5px 9px; font-size:10px; }
+  .fc { font-size:9px; padding:1px 4px; }
+
+  /* Modal pantalla completa desde abajo */
+  .overlay { padding:0; align-items:flex-end; }
+  .modal { border-radius:16px 16px 0 0; max-width:100%; max-height:92vh; overflow-y:auto; }
+
+  /* Barra refresh */
+  .refresh-bar { font-size:9px; }
+
+  /* Cards resumen */
+  .sm { grid-template-columns:repeat(4,1fr); gap:5px; margin-top:12px; }
+  .sc { padding:8px 4px; }
+  .sc .n { font-size:18px; }
+  .sc .l { font-size:9px; }
+  .sc .s { display:none; }
+
+  h1 { font-size:16px; }
+  .sub { font-size:11px; }
+  .inst { font-size:10px; margin-bottom:10px; }
 }
 
 @media(max-width:400px){
-  .sm{ grid-template-columns:repeat(3,1fr); }
+  .sm { grid-template-columns:repeat(3,1fr); }
 }
 </style>
 </head>
