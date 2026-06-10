@@ -198,7 +198,6 @@ tr.esp{background:#fff8f8}tr.esp:hover{background:#ffe8e8!important}
 <p class="sub">Fase de Grupos · 11 jun – 28 jun 2026 · Horario peninsular español (CEST)</p>
 <p class="inst">Pulsa en cualquier partido para ver la ficha · Activa o desactiva columnas de canales</p>
 
-<div id="ml"></div>
 <div class="refresh-bar">Marcadores via ESPN · <span id="refresh-time">Cargando...</span></div>
 
 <div class="filters">
@@ -224,6 +223,7 @@ tr.esp{background:#fff8f8}tr.esp:hover{background:#ffe8e8!important}
 </tr></thead>
 <tbody id="tb"></tbody>
 </table>
+<div id="ml"></div>
 <div id="mobile-list"></div>
 
 <div class="sm">
@@ -421,6 +421,7 @@ function tc(col,btn){
   btn.classList.toggle('on');
   var show=btn.classList.contains('on');
   document.querySelectorAll('.c-'+col).forEach(function(el){el.classList.toggle('col-hidden',!show);});
+  document.querySelectorAll('.mob-'+col).forEach(function(el){el.classList.toggle('col-hidden',!show);});
 }
 
 
@@ -452,7 +453,7 @@ function renderMobile(){
     html+='<div class="ml2">';
     if(activeCh.length){
       activeCh.forEach(function(c){
-        html+='<span class="b '+CB[c]+'">'+CL[c]+'</span>';
+        html+='<span class="b '+CB[c]+' mob-'+c+'">'+CL[c]+'</span>';
       });
     } else {
       html+='<span class="mnc">Sin canal disponible</span>';
