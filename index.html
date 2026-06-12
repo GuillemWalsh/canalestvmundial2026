@@ -36,7 +36,7 @@
 <h1>Mundial 2026 — Partidos por canal disponible en el hotel</h1>
 <p class="sub">Fase de Grupos · 11 jun – 28 jun 2026 · Horario peninsular español (CEST)</p>
 <p class="inst">Pulsa en cualquier partido para ver la ficha · Activa o desactiva columnas de canales</p>
-<div class="refresh-bar">Marcadores via football-data.org · <span id="refresh-time">Cargando...</span></div>
+<div class="refresh-bar">Resultados via openfootball · <span id="refresh-time">Cargando...</span></div>
 
 <div class="filters">
   <button class="fb la on" onclick="tc('la1',this)">La 1/TDP <span class="fc">17</span></button>
@@ -74,7 +74,7 @@
   <div class="sc sra"><div class="n">17</div><div class="l">Rai 1</div><div class="s">Italia</div></div>
 </div>
 
-<p class="note">Partidos de España en rojo · Banderas via ESPN · Resultados via football-data.org (actualización cada 60s)<br>
+<p class="note">Partidos de España en rojo · Banderas via ESPN · Resultados via openfootball (actualización diaria)<br>
 Fuentes TV: RTVE.es · ZDF.de · ESPN UK · Puremédias · openfootball/worldcup.json</p>
 
 <script>
@@ -85,8 +85,26 @@ var ABBR={"México":"mex","Sudáfrica":"rsa","Corea del Sur":"sko","Rep. Checa":
 var CN=['la1','ard','zdf','bbc','itv','m6','rai'];
 var CL={la1:'La 1',ard:'ARD',zdf:'ZDF',bbc:'BBC',itv:'ITV',m6:'M6',rai:'Rai 1'};
 var CB={la1:'bla',ard:'bar',zdf:'bzd',bbc:'bbc',itv:'bit',m6:'bm6',rai:'bra'};
-var FD={};  // football-data: key=homeES+'-'+awayES, val={hs,as,state}
+var FD={};  // resultados: key=homeES+'-'+awayES, val={hs,as,state}
 var refreshTimer=null;
+
+// Mapa nombre inglés (TheSportsDB) -> nombre español
+var EN2ES={
+  'Mexico':'México','South Africa':'Sudáfrica','South Korea':'Corea del Sur',
+  'Czech Republic':'Rep. Checa','Canada':'Canadá','Bosnia & Herzegovina':'Bosnia',
+  'USA':'EEUU','Paraguay':'Paraguay','Qatar':'Catar','Switzerland':'Suiza',
+  'Brazil':'Brasil','Morocco':'Marruecos','Haiti':'Haití','Scotland':'Escocia',
+  'Australia':'Australia','Turkey':'Turquía','Germany':'Alemania','Curaçao':'Curazao',
+  'Netherlands':'Países Bajos','Japan':'Japón','Ivory Coast':'Costa de Marfil',
+  'Ecuador':'Ecuador','Sweden':'Suecia','Tunisia':'Túnez','Spain':'España',
+  'Cape Verde':'Cabo Verde','Belgium':'Bélgica','Egypt':'Egipto',
+  'Saudi Arabia':'Arabia Saudí','Uruguay':'Uruguay','Iran':'Irán',
+  'New Zealand':'Nueva Zelanda','France':'Francia','Senegal':'Senegal',
+  'Iraq':'Irak','Norway':'Noruega','Argentina':'Argentina','Algeria':'Argelia',
+  'Austria':'Austria','Jordan':'Jordania','Portugal':'Portugal','DR Congo':'RD Congo',
+  'Uzbekistan':'Uzbekistán','Colombia':'Colombia','England':'Inglaterra',
+  'Croatia':'Croacia','Ghana':'Ghana','Panama':'Panamá'
+}
 
 function logoUrl(teamES){
   var c=ABBR[teamES];
@@ -101,66 +119,42 @@ function flagImg(teamES,size){
 
 function fdKey(home,away){return home+'-'+away;}
 
-function isLive(state){return state==='IN_PLAY'||state==='PAUSED'||state==='HALF_TIME';}
+function isLive(state){return state==='LIVE'||state==='IN_PLAY'||state==='1H'||state==='2H'||state==='HT';}
 
 function scoreCell(home,away){
   var d=FD[fdKey(home,away)];
-  if(!d||d.state==='SCHEDULED'||d.state==='TIMED') return '';
+  if(!d) return '';
   var sc='<span class="score'+(isLive(d.state)?' live':'')+'">'+d.hs+' \u2013 '+d.as+'</span>';
   if(isLive(d.state)) sc+=' <span class="ph-live"><span class="live-dot"></span>EN VIVO</span>';
-  else if(d.state==='FINISHED') sc+=' <span class="ph-ft">FIN</span>';
+  else if(d.state==='FT') sc+=' <span class="ph-ft">FIN</span>';
   return sc;
 }
 
 async function fetchFD(){
-  var matches=null;
-  var token='300caff59a314a1ba9420109414be9c9';
-  var api='https://api.football-data.org/v4/competitions/WC/matches';
-
-  // Intento A: killcors (soporta forwarding de headers, sin límites, sin cuenta)
+  // openfootball: JSON en GitHub raw (CORS permitido, sin key, sin proxy)
+  // Actualizado manualmente ~1 vez al día por el mantenedor
   try{
-    var rA=await fetch('https://proxy.killcors.com/?url='+encodeURIComponent(api),{headers:{'X-Auth-Token':token}});
-    if(rA.ok){var dA=await rA.json();if(dA.matches){matches=dA.matches;console.log('OK via killcors');}}
-  }catch(e){console.log('Fallo killcors:',e.message);}
-
-  // Intento B: cors.x2u.in
-  if(!matches){
-    try{
-      var rB=await fetch('https://cors.x2u.in/'+api,{headers:{'X-Auth-Token':token}});
-      if(rB.ok){var dB=await rB.json();if(dB.matches){matches=dB.matches;console.log('OK via x2u');}}
-    }catch(e){console.log('Fallo x2u:',e.message);}
-  }
-
-  // Intento C: codetabs (no reenvía headers, pero probamos por si acaso)
-  if(!matches){
-    try{
-      var rC=await fetch('https://api.codetabs.com/v1/proxy/?quest='+encodeURIComponent(api),{headers:{'X-Auth-Token':token}});
-      if(rC.ok){var dC=await rC.json();if(dC.matches){matches=dC.matches;console.log('OK via codetabs');}}
-    }catch(e){console.log('Fallo codetabs:',e.message);}
-  }
-
-  if(!matches){
+    var r=await fetch('https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json');
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    var data=await r.json();
+    var matches=data.matches||[];
+    matches.forEach(function(m){
+      var homeES=EN2ES[(m.team1||'').trim()]||'';
+      var awayES=EN2ES[(m.team2||'').trim()]||'';
+      if(!homeES||!awayES) return;
+      // Solo si el partido tiene marcador final
+      if(!m.score||!m.score.ft) return;
+      var ft=m.score.ft;
+      FD[fdKey(homeES,awayES)]={hs:ft[0],as:ft[1],state:'FT'};
+    });
+    document.getElementById('refresh-time').textContent=
+      'Actualizado '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+    renderTable();
+    renderMobile();
+  }catch(e){
     document.getElementById('refresh-time').textContent='Resultados no disponibles';
-    console.log('Todos los intentos fallaron');
-    return;
+    console.log('Fallo openfootball:',e.message);
   }
-  matches.forEach(function(m){
-    var homeTLA=(m.homeTeam&&m.homeTeam.tla)||'';
-    var awayTLA=(m.awayTeam&&m.awayTeam.tla)||'';
-    var homeES=TLA[homeTLA]||'';
-    var awayES=TLA[awayTLA]||'';
-    if(!homeES||!awayES) return;
-    var score=m.score||{};
-    var ft=score.fullTime||{};
-    var state=m.status||'SCHEDULED';
-    var hs=ft.home!=null?ft.home:0;
-    var as=ft.away!=null?ft.away:0;
-    FD[fdKey(homeES,awayES)]={hs:hs,as:as,state:state};
-  });
-  document.getElementById('refresh-time').textContent=
-    'Actualizado '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
-  renderTable();
-  renderMobile();
 }
 
 function renderTable(){
