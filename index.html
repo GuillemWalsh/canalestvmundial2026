@@ -114,7 +114,9 @@ function scoreCell(home,away){
 
 async function fetchFD(){
   try{
-    var r=await fetch('https://api.football-data.org/v4/competitions/WC/matches',{
+    // Proxy CORS necesario para llamadas desde browser
+    var target='https://api.football-data.org/v4/competitions/WC/matches';
+    var r=await fetch('https://corsproxy.io/?url='+encodeURIComponent(target),{
       headers:{'X-Auth-Token':'300caff59a314a1ba9420109414be9c9'}
     });
     if(!r.ok) throw new Error('HTTP '+r.status);
