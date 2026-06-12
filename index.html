@@ -307,12 +307,20 @@ function scoreCell(home,away){
 
 async function fetchESPN(){
   try{
-    // Obtener todos los partidos del Mundial por fecha (los primeros 50)
-    var urls=[
-      'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?limit=50&dates=20260611-20260628'
-    ];
-    for(var i=0;i<urls.length;i++){
-      var r=await fetch(urls[i]);
+    // Pedir los partidos de hoy, ayer y mañana para cubrir partidos recientes y próximos
+    var now=new Date();
+    var dates=[];
+    for(var d=-1;d<=1;d++){
+      var day=new Date(now);
+      day.setDate(day.getDate()+d);
+      var y=day.getFullYear();
+      var m=String(day.getMonth()+1).padStart(2,'0');
+      var dd=String(day.getDate()).padStart(2,'0');
+      dates.push(y+''+m+''+dd);
+    }
+    for(var i=0;i<dates.length;i++){
+      var url='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?limit=20&dates='+dates[i];
+      var r=await fetch(url);
       if(!r.ok) continue;
       var data=await r.json();
       var events=data.events||[];
