@@ -114,33 +114,34 @@ function scoreCell(home,away){
 
 async function fetchFD(){
   var matches=null;
-  // Estrategia 1: llamada directa (football-data v4 soporta CORS con Access-Control-Allow-Origin *)
+  var token='300caff59a314a1ba9420109414be9c9';
+  var api='https://api.football-data.org/v4/competitions/WC/matches';
+
+  // Intento A: killcors (soporta forwarding de headers, sin límites, sin cuenta)
   try{
-    var r=await fetch('https://api.football-data.org/v4/competitions/WC/matches',{
-      headers:{'X-Auth-Token':'300caff59a314a1ba9420109414be9c9'}
-    });
-    if(r.ok){var data=await r.json();matches=data.matches||[];}
-  }catch(e){}
-  // Estrategia 2 (fallback): proxy allorigins que reenvía el header via header param
+    var rA=await fetch('https://proxy.killcors.com/?url='+encodeURIComponent(api),{headers:{'X-Auth-Token':token}});
+    if(rA.ok){var dA=await rA.json();if(dA.matches){matches=dA.matches;console.log('OK via killcors');}}
+  }catch(e){console.log('Fallo killcors:',e.message);}
+
+  // Intento B: cors.x2u.in
   if(!matches){
     try{
-      var target='https://api.football-data.org/v4/competitions/WC/matches';
-      var proxyUrl='https://api.allorigins.win/raw?url='+encodeURIComponent(target);
-      var r2=await fetch(proxyUrl,{headers:{'X-Auth-Token':'300caff59a314a1ba9420109414be9c9'}});
-      if(r2.ok){var data2=await r2.json();matches=data2.matches||[];}
-    }catch(e){}
+      var rB=await fetch('https://cors.x2u.in/'+api,{headers:{'X-Auth-Token':token}});
+      if(rB.ok){var dB=await rB.json();if(dB.matches){matches=dB.matches;console.log('OK via x2u');}}
+    }catch(e){console.log('Fallo x2u:',e.message);}
   }
-  // Estrategia 3 (fallback): proxy codetabs
+
+  // Intento C: codetabs (no reenvía headers, pero probamos por si acaso)
   if(!matches){
     try{
-      var target3='https://api.football-data.org/v4/competitions/WC/matches';
-      var proxyUrl3='https://api.codetabs.com/v1/proxy/?quest='+encodeURIComponent(target3);
-      var r3=await fetch(proxyUrl3);
-      if(r3.ok){var data3=await r3.json();matches=data3.matches||[];}
-    }catch(e){}
+      var rC=await fetch('https://api.codetabs.com/v1/proxy/?quest='+encodeURIComponent(api),{headers:{'X-Auth-Token':token}});
+      if(rC.ok){var dC=await rC.json();if(dC.matches){matches=dC.matches;console.log('OK via codetabs');}}
+    }catch(e){console.log('Fallo codetabs:',e.message);}
   }
+
   if(!matches){
     document.getElementById('refresh-time').textContent='Resultados no disponibles';
+    console.log('Todos los intentos fallaron');
     return;
   }
   matches.forEach(function(m){
