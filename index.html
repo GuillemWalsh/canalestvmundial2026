@@ -114,13 +114,12 @@ function scoreCell(home,away){
 
 async function fetchFD(){
   try{
-    // Proxy CORS necesario para llamadas desde browser
     var target='https://api.football-data.org/v4/competitions/WC/matches';
-    var r=await fetch('https://corsproxy.io/?url='+encodeURIComponent(target),{
-      headers:{'X-Auth-Token':'300caff59a314a1ba9420109414be9c9'}
-    });
+    var proxyUrl='https://api.allorigins.win/get?url='+encodeURIComponent(target);
+    var r=await fetch(proxyUrl,{headers:{'X-Auth-Token':'300caff59a314a1ba9420109414be9c9'}});
     if(!r.ok) throw new Error('HTTP '+r.status);
-    var data=await r.json();
+    var wrapper=await r.json();
+    var data=JSON.parse(wrapper.contents);
     var matches=data.matches||[];
     matches.forEach(function(m){
       var homeTLA=(m.homeTeam&&m.homeTeam.tla)||'';
@@ -130,11 +129,9 @@ async function fetchFD(){
       if(!homeES||!awayES) return;
       var score=m.score||{};
       var ft=score.fullTime||{};
-      var ht=score.halfTime||{};
       var state=m.status||'SCHEDULED';
-      // En vivo usar score actual, finalizado usar fullTime
-      var hs=ft.home!=null?ft.home:(ht.home!=null?ht.home:0);
-      var as=ft.away!=null?ft.away:(ht.away!=null?ht.away:0);
+      var hs=ft.home!=null?ft.home:0;
+      var as=ft.away!=null?ft.away:0;
       FD[fdKey(homeES,awayES)]={hs:hs,as:as,state:state};
     });
     document.getElementById('refresh-time').textContent=
